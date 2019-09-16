@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:id="@+id/et_title"
+        android:padding="13dp"
+        android:hint="Enter Title"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:textColor="@color/colorAccent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/v_line"
+        android:layout_below="@+id/et_title"
+        android:background="@color/colorAccent"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_text"
+        android:layout_below="@+id/et_title"
+        android:padding="13dp"
+        android:hint="Enter note description"
+        android:layout_marginRight="9dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="9dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_add"
+        android:layout_below="@+id/et_text"
+        android:layout_centerInParent="true"
+        android:text="ADD"
+        android:layout_marginTop="9dp"/>
+
+
+
+</RelativeLayout>
