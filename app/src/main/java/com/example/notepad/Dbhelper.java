@@ -70,4 +70,27 @@ public class Dbhelper extends SQLiteOpenHelper {
 
     }
 
+    public int updateNote(Notepad notepad) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(Notepad.NOTE_TITLE, notepad.getTitle());
+        cv.put(NOTE_TEXT, notepad.getText());
+
+        Toast.makeText(context,"Note Updated Successfully",Toast.LENGTH_LONG).show();
+        return db.update(Notepad.TABLE_NAME, cv, Notepad.COLUMN_ID + "= ?", new String[]{String.valueOf(Notepad.COLUMN_ID)});
+
+    }
+
+
+    public  void deleteNote(Notepad notepad)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.delete(Notepad.TABLE_NAME,Notepad.COLUMN_ID +" =? ",new String[]{String.valueOf(Notepad.COLUMN_ID)});
+        db.close();
+
+    }
+
 }
+
+
+
