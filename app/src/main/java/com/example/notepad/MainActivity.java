@@ -18,19 +18,24 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements NoteAdapter.OnItemClickInterface {
     RecyclerView rec;
     Button fab;
-    List<Notepad> list;
-    private static int RES_CODE = 10;
     TextView mtv_No_items_found;
+
+
+    private static int RES_CODE_ADD = 10;
+    private static int RES_CODE_UPDATE = 11;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if ((requestCode == RES_CODE) && (resultCode == RESULT_OK)) {
+        if ((requestCode == RES_CODE_ADD) && (resultCode == RESULT_OK)) {
             assert data != null;
+            setupNoteAdapter();
+        } else if ((requestCode == RES_CODE_UPDATE) && (resultCode == RESULT_OK)) {
             setupNoteAdapter();
         }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
         rec = findViewById(R.id.rec);
         fab = findViewById(R.id.btn_fab);
         rec.setLayoutManager(new LinearLayoutManager(this));
-        list = new ArrayList<>();
+
         mtv_No_items_found = findViewById(R.id.tv_no_item_found);
 
         setupNoteAdapter();
@@ -50,8 +55,9 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                intent.putExtra("button type","ADD");
-                startActivityForResult(intent, RES_CODE);
+                intent.putExtra("button_type", "ADD");
+                startActivityForResult(intent, RES_CODE_ADD);
+                setupNoteAdapter();
 
 
             }
@@ -60,13 +66,18 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
 
     private void setupNoteAdapter() {
 
+        List<Notepad> list;
         Dbhelper db = new Dbhelper(MainActivity.this);
         list = db.getNotesList();
         if (list.size() > 0) {
             mtv_No_items_found.setVisibility(View.GONE);
-
-            NoteAdapter obj = new NoteAdapter(MainActivity.this, (ArrayList<Notepad>) list);
+            rec.setVisibility(View.VISIBLE);
+            NoteAdapter obj = new NoteAdapter(MainActivity.this,(ArrayList<Notepad>) list);
+            obj.setListener(this);
             rec.setAdapter(obj);
+            obj.notifyDataSetChanged();
+
+
         } else {
             rec.setVisibility(View.GONE);
             mtv_No_items_found.setVisibility(View.VISIBLE);
@@ -74,18 +85,23 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
     }
 
 
-    @Override
-    public void update(Notepad notepad) {
-        Intent updateIntent=new Intent(MainActivity.this,SecondActivity.class);
-        updateIntent.putExtra("button type","UPDATE");
-        updateIntent.putExtra("note",notepad);
+    public void OnUpdate(String id, String title, String text) {
+
+        Intent updateIntent = new Intent(MainActivity.this, SecondActivity.class);
+        updateIntent.putExtra("button_type", "UPDATE");
+        updateIntent.putExtra("id", id);
+        updateIntent.putExtra("title", title);
+        updateIntent.putExtra("text", text);
+        startActivityForResult(updateIntent, RES_CODE_UPDATE);
+        setupNoteAdapter();
 
     }
 
     @Override
-    public void delete(Notepad notepad) {
-        Dbhelper db=new Dbhelper(MainActivity.this);
-       db.deleteNote(notepad);
+    public void OnDelete(String id) {
+        Dbhelper db = new Dbhelper(MainActivity.this);
+        db.deleteNote(id);
+        setupNoteAdapter();
 
     }
 }

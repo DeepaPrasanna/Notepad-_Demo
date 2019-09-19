@@ -19,7 +19,7 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        String intentType = getIntent().getStringExtra("button type");
+        String intentType = getIntent().getStringExtra("button_type");
 
         et_title = findViewById(R.id.et_title);
         et_text = findViewById(R.id.et_text);
@@ -43,18 +43,22 @@ public class SecondActivity extends AppCompatActivity {
                 }
             });
         } else if (intentType.equals("UPDATE")) {
-          final    Notepad notepad = getIntent().getParcelableExtra("note");
-            et_title.setText(notepad.getTitle());
-            et_text.setText(notepad.getText());
+            //final    Notepad notepad = getIntent().getParcelableExtra("note");
+
             bt_add.setText("update");
+            final String id = getIntent().getStringExtra("id");
+            final String title = getIntent().getStringExtra("title");
+            final String text = getIntent().getStringExtra("text");
+            et_title.setText(title);
+            et_text.setText(text);
+
             bt_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String title,text;
-                   notepad.setTitle(et_title.getText().toString());
-                    notepad.setText(et_text.getText().toString());
-                    Dbhelper db=new Dbhelper(SecondActivity.this);
-                    db.updateNote( notepad);
+                    String title = et_title.getText().toString();
+                    String text = et_text.getText().toString();
+                    Dbhelper db = new Dbhelper(SecondActivity.this);
+                    updatetoNote(id, title, text);
                 }
             });
 
@@ -70,5 +74,16 @@ public class SecondActivity extends AppCompatActivity {
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    private void updatetoNote(String id, String title, String text) {
+        Dbhelper db = new Dbhelper(this);
+        db.updateNote(id, title, text);
+
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+
+
     }
 }
