@@ -13,13 +13,18 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+//import static com.example.notepad.Notepad.TABLE_NAME;
+
 
 public class Dbhelper extends SQLiteOpenHelper {
 
     Context context;
     public static final String DATABASE_NAME = "Note.db";
     public static final int DATABASE_VERSION = 1;
-//    public static final String TABLE_NAME = "Notes";
+    public static final String COL_ID = "ID";
+    public static final String COL_TITLE = "TITLE";
+    public static final String COL_TEXT = "CONTENT";
+    public static final String TABLE_NAME = "Notes";
 //    public static final String COLUMN_ID = "id";
 //    public static final String NOTE_TITLE = "title";
 //    public static final String NOTE_DESC = "content";
@@ -37,7 +42,9 @@ public class Dbhelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(Notepad.CREATE_TABLE);
+//        sqLiteDatabase.execSQL(Notepad.CREATE_TABLE);
+
+        sqLiteDatabase.execSQL("create table " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT,TITLE TEXT,CONTENT TEXT)");
 
     }
 
@@ -49,10 +56,10 @@ public class Dbhelper extends SQLiteOpenHelper {
     public long insertNote(String title, String text) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(Notepad.NOTE_TITLE, title);
-        cv.put(Notepad.NOTE_DESC, text);
+        cv.put(COL_TITLE, title);
+        cv.put(COL_TEXT, text);
 
-        long id = db.insert(Notepad.TABLE_NAME, null, cv);
+        long id = db.insert(TABLE_NAME, null, cv);
         db.close();
         Toast.makeText(context, "Note added successfully", Toast.LENGTH_SHORT).show();
         return id;
@@ -61,7 +68,7 @@ public class Dbhelper extends SQLiteOpenHelper {
     public List<Notepad> getNotesList() {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        String GET_LIST = "SELECT * FROM " + Notepad.TABLE_NAME;
+        String GET_LIST = "SELECT * FROM " + TABLE_NAME;
 
         Cursor cursor = db.rawQuery(GET_LIST, null);
         List<Notepad> list = new ArrayList<>();
@@ -69,9 +76,9 @@ public class Dbhelper extends SQLiteOpenHelper {
         if (cursor.moveToNext()) {
             do {
                 Notepad notepad = new Notepad();
-                notepad.id = cursor.getString(cursor.getColumnIndex(Notepad.COLUMN_ID));
-                notepad.title = cursor.getString(cursor.getColumnIndex(Notepad.NOTE_TITLE));
-                notepad.text = cursor.getString(cursor.getColumnIndex(Notepad.NOTE_DESC));
+                notepad.id = cursor.getString(cursor.getColumnIndex(COL_ID));
+                notepad.title = cursor.getString(cursor.getColumnIndex(COL_TITLE));
+                notepad.text = cursor.getString(cursor.getColumnIndex(COL_TEXT));
                 list.add(notepad);
             } while (cursor.moveToNext());
 
@@ -88,14 +95,15 @@ public class Dbhelper extends SQLiteOpenHelper {
     public int updateNote(String id, String title, String text) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(Notepad.COLUMN_ID, id);
-        cv.put(Notepad.NOTE_TITLE, title);
-        cv.put(Notepad.NOTE_DESC, title);
+        cv.put(COL_ID, id);
+        cv.put(COL_TITLE, title);
+        cv.put(COL_TEXT, text);
 
+        db.update(TABLE_NAME, cv, "ID = ?", new String[]{id});
 
-        Toast.makeText(context, "Note Updated Successfully", Toast.LENGTH_LONG).show();
         db.close();
-        return db.update(Notepad.TABLE_NAME, cv, Notepad.COLUMN_ID + " = ?", new String[]{Notepad.COLUMN_ID});
+        Toast.makeText(context, "Note Updated Successfully", Toast.LENGTH_LONG).show();
+        return 1;
 
 
     }
@@ -103,7 +111,7 @@ public class Dbhelper extends SQLiteOpenHelper {
 
     public void deleteNote(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(Notepad.TABLE_NAME, Notepad.COLUMN_ID + " = ?", new String[]{Notepad.COLUMN_ID});
+        db.delete(TABLE_NAME, "ID = ?", new String[]{id});
         db.close();
 
     }

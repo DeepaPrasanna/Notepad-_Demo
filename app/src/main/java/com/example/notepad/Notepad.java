@@ -6,17 +6,17 @@ import android.os.Parcelable;
 public class Notepad {//implements Parcelable {
 
     public String title,text,id;
-   // public static final String DATABASE_NAME = "Note.db";
-    //public static final int DATABASE_VERSION = 1;
-    public static final String TABLE_NAME = "Notes";
-    public static final String COLUMN_ID = "id";
-    public static final String NOTE_TITLE = "title";
-    public static final String NOTE_DESC = "content";
+//   public static final String DATABASE_NAME = "Note.db";
+//    public static final int DATABASE_VERSION = 1;
+//    public static final String TABLE_NAME = "Notes";
+//    public static final String COLUMN_ID = "id";
+//    public static final String NOTE_TITLE = "title";
+//    public static final String NOTE_DESC = "content";
 
-    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
-            COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            NOTE_TITLE + " TEXT," +
-            NOTE_DESC + " TEXT)";
+//    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
+//            COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//            NOTE_TITLE + " TEXT, " +
+//            NOTE_DESC + " TEXT)";
 
 
 
@@ -29,18 +29,18 @@ public class Notepad {//implements Parcelable {
 //       text = in.readString();
 //    }
 
+/*
+    public static final Creator<Notepad> CREATOR = new Creator<Notepad>() {
+        @Override
+        public Notepad createFromParcel(Parcel in) {
+            return new Notepad(in);
+        }
 
-//    public static final Creator<Notepad> CREATOR = new Creator<Notepad>() {
-//        @Override
-//        public Notepad createFromParcel(Parcel in) {
-//            return new Notepad(in);
-//        }
-//
-//        @Override
-//        public Notepad[] newArray(int size) {
-//            return new Notepad[size];
-//        }
-//    };
+        @Override
+        public Notepad[] newArray(int size) {
+            return new Notepad[size];
+        }
+    };*/
 //
 //    public String getTitle() {
 //        return title;

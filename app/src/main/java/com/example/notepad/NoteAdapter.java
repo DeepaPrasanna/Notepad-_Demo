@@ -17,10 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
-    private static final String  TAG = NoteAdapter.class.getSimpleName();
+    private static final String TAG = NoteAdapter.class.getSimpleName();
 
-    Context context;
+    private Context context;
     List<Notepad> list;
+    OnItemClickInterface listener;
 
     public NoteAdapter(Context context, ArrayList<Notepad> list) {
         this.context = context;
@@ -31,7 +32,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.notepad_cell, parent, false);
-        return new NoteViewHolder(view);
+        return (new NoteViewHolder(view));
 
 
     }
@@ -40,8 +41,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         final Notepad notepad = list.get(position);
 
-       Log.i(TAG, "onBindViewHolder: Title ::: "+notepad.title);
-        Log.i(TAG, "onBindViewHolder: Desc ::: "+notepad.text);
+        Log.i(TAG, "onBindViewHolder: Title ::: " + notepad.title);
+        Log.i(TAG, "onBindViewHolder: Desc ::: " + notepad.text);
 
         holder.title.setText(notepad.title);
         holder.desc.setText(notepad.text);
@@ -49,10 +50,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         holder.mbtn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               listener.OnUpdate(notepad.id,notepad.title,notepad.text);
+                listener.OnUpdate(notepad.id, notepad.title, notepad.text);
             }
 
-       });
+        });
 
 
         holder.mbtn_delete.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +83,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         }
     }
 
-    OnItemClickInterface listener;
 
     public void setListener(OnItemClickInterface listener) {
         this.listener = listener;
@@ -90,7 +90,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     public interface OnItemClickInterface {
-        void OnUpdate(String id,String title,String text);
+        void OnUpdate(String id, String title, String text);
 
         void OnDelete(String id);
 

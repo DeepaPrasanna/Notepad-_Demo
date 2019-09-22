@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
             setupNoteAdapter();
         } else if ((requestCode == RES_CODE_UPDATE) && (resultCode == RESULT_OK)) {
             setupNoteAdapter();
+
         }
     }
 
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 intent.putExtra("button_type", "ADD");
                 startActivityForResult(intent, RES_CODE_ADD);
-                setupNoteAdapter();
+                // setupNoteAdapter();
 
 
             }
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnIte
         if (list.size() > 0) {
             mtv_No_items_found.setVisibility(View.GONE);
             rec.setVisibility(View.VISIBLE);
-            NoteAdapter obj = new NoteAdapter(MainActivity.this,(ArrayList<Notepad>) list);
+            NoteAdapter obj = new NoteAdapter(MainActivity.this, (ArrayList<Notepad>) list);
             obj.setListener(this);
             rec.setAdapter(obj);
             obj.notifyDataSetChanged();

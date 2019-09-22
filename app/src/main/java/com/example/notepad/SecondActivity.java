@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class SecondActivity extends AppCompatActivity {
-    EditText et_title, et_text;
-    Button bt_add;
+public class SecondActivity extends AppCompatActivity implements OnItemClickInterface {
+    private EditText et_title, et_text;
+    private Button bt_add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class SecondActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     String title = et_title.getText().toString();
                     String text = et_text.getText().toString();
-                    Dbhelper db = new Dbhelper(SecondActivity.this);
+                    //Dbhelper db = new Dbhelper(SecondActivity.this);
                     updatetoNote(id, title, text);
                 }
             });
